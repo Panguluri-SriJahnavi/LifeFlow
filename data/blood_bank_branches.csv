@@ -1,0 +1,13 @@
+branch_id,name,address,phone,capacity_units,is_24x7,components,latitude,longitude
+1,Vijaya Sri Blood Bank,"Dornakal Road, Suryaraopet, Vijayawada - 520002",0866-2433199,500,Yes,Yes,16.5062,80.648
+2,Lions Blood Bank,"29-4-54k, CSI CDA Complex, Prakasham Road, Suryaraopet, Vijayawada - 520002",0866-2573636,400,Yes,Yes,16.508,80.645
+3,Rotary Red Cross Blood Bank,"Door No 26-5-5, G S Raju Street, Gandhi Nagar, Vijayawada - 520003",0866-2570082,450,Yes,Yes,16.51,80.65
+4,New City Blood Bank,"Dornakal Road, Suryaraopet, Vijayawada - 520002",9615444447,350,Yes,Yes,16.507,80.647
+5,Chaitanya Blood Bank,"40-9/1-26, 1st Floor, Vasavi Complex, Benz Circle, Vijayawada - 520010",0866-2497977,300,Yes,Yes,16.5,80.64
+6,Aayush Blood Bank,"Door No 48-13-3 & 3a, Ring Road, Sri Ramachandra Nagar, Vijayawada - 520008",0866-2541414,320,Yes,Yes,16.52,80.63
+7,Suraksha Voluntary Blood Bank,"29-10-8, Narasimharao Nayudu Street, Suryaraopet, Vijayawada - 520002",0866-2430000,280,Yes,Yes,16.509,80.646
+8,Andhra Blood Bank,"Cvr Complex, Prakasam Road, Governorpet, Vijayawada - 520002",0866-2574757,250,No,Yes,16.505,80.642
+9,University General Hospital Blood Bank,"Hanumanpet / Ring Road, Gunadala, Vijayawada - 520008",0866-2452244,600,Yes,Yes,16.515,80.655
+10,Nagarjuna Hospital Blood Bank,"Kanuru, Vijayawada",0866-2554701,200,Yes,Yes,16.49,80.68
+11,Bethesda Blood Bank,"Suryaraopet area, Vijayawada - 520002",0866-2500000,180,No,Yes,16.5065,80.644
+12,Life Share Blood Bank,"Sudarshan Complex, Mogalrajapuram, Labbipet, Vijayawada - 520010",0866-2400000,220,Yes,Yes,16.502,80.635

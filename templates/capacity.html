@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Capacity & Stock - LifeFlow{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4"><i class="fas fa-tint text-danger"></i> Capacity & In-Stock Units</h2>
+
+    <!-- Branches Overview -->
+    <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-hospital"></i> Blood Bank Branches in Vijayawada ({{ branches|length }})</div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Name</th><th>Address</th><th>Phone</th><th>Capacity</th><th>24×7</th><th>Components</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in branches %}
+                    <tr>
+                        <td>{{ b.id }}</td>
+                        <td><strong>{{ b.name }}</strong></td>
+                        <td>{{ b.address }}</td>
+                        <td>{{ b.phone }}</td>
+                        <td><span class="badge bg-danger">{{ b.capacity_units }} units</span></td>
+                        <td>{{ b.is_24x7 }}</td>
+                        <td>{{ b.components }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Stock Summary -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <span><i class="fas fa-boxes"></i> Current In-Stock (Sample Branch: Vijaya Sri)</span>
+                    <form class="d-flex search-box" method="GET">
+                        <input type="text" name="search" class="form-control form-control-sm me-2" placeholder="Search bag/type/status..." value="{{ search }}">
+                        <button class="btn btn-blood btn-sm">Search</button>
+                    </form>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <tr><th>Bag ID</th><th>Type</th><th>Qty (ml)</th><th>Collected</th><th>Expiry</th><th>Status</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for inv in inventory %}
+                            <tr>
+                                <td>{{ inv.bag_id }}</td>
+                                <td><span class="badge bg-danger">{{ inv.blood_type }}</span></td>
+                                <td>{{ inv.quantity_ml }}</td>
+                                <td>{{ inv.collection_date }}</td>
+                                <td>{{ inv.expiry_date }}</td>
+                                <td>
+                                    {% if inv.status == 'Available' %}<span class="badge badge-available">Available</span>
+                                    {% elif inv.status == 'Reserved' %}<span class="badge badge-reserved">Reserved</span>
+                                    {% else %}<span class="badge badge-expired">{{ inv.status }}</span>{% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('update_inventory_status', id=inv.id, status='Available') }}" class="btn btn-success btn-sm" title="Set Available">A</a>
+                                        <a href="{{ url_for('update_inventory_status', id=inv.id, status='Reserved') }}" class="btn btn-warning btn-sm" title="Reserve">R</a>
+                                        <a href="{{ url_for('delete_inventory', id=inv.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete?')">×</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header"><i class="fas fa-chart-bar"></i> Stock by Blood Type</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for t, c in stock_by_type %}
+                        <li class="list-group-item d-flex justify-content-between bg-transparent text-white border-secondary">
+                            <strong>{{ t }}</strong> <span class="badge bg-danger">{{ c }} bags</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Add new bag -->
+            <div class="card">
+                <div class="card-header"><i class="fas fa-plus"></i> Add Blood Bag</div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_inventory') }}">
+                        <div class="mb-2">
+                            <input type="text" name="bag_id" class="form-control form-control-sm" placeholder="Bag ID e.g. BB1051" required>
+                        </div>
+                        <div class="mb-2">
+                            <select name="blood_type" class="form-select form-select-sm" required>
+                                {% for bt in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}
+                                <option value="{{ bt }}">{{ bt }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <input type="number" name="quantity_ml" class="form-control form-control-sm" value="450" min="100">
+                        </div>
+                        <button type="submit" class="btn btn-blood btn-sm w-100">Add Bag</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

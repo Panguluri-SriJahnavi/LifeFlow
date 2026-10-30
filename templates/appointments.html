@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Appointments - LifeFlow{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-calendar-check text-danger"></i> Appointments & Donor Schedule</h2>
+        <form class="d-flex search-box" method="GET">
+            <input type="text" name="search" class="form-control me-2" placeholder="Search..." value="{{ search }}">
+            <button class="btn btn-blood">Search</button>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="card">
+                <div class="card-header">All Appointments ({{ appointments|length }})</div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Donor</th><th>Blood Type</th><th>Date</th><th>Time</th><th>Purpose</th><th>Status</th><th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in appointments %}
+                            <tr>
+                                <td>{{ a.appointment_id }}</td>
+                                <td>{{ a.donor_name }}</td>
+                                <td><span class="badge bg-danger">{{ a.blood_type }}</span></td>
+                                <td>{{ a.appointment_date }}</td>
+                                <td>{{ a.appointment_time }}</td>
+                                <td>{{ a.purpose }}</td>
+                                <td>
+                                    {% if a.status == 'Pending' %}<span class="badge badge-pending">Pending</span>
+                                    {% elif a.status == 'Completed' %}<span class="badge badge-completed">Completed</span>
+                                    {% else %}<span class="badge bg-secondary">{{ a.status }}</span>{% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('update_appointment_status', id=a.id, status='Completed') }}" class="btn btn-success btn-sm">✓</a>
+                                    <a href="{{ url_for('update_appointment_status', id=a.id, status='Cancelled') }}" class="btn btn-warning btn-sm">✕</a>
+                                    <a href="{{ url_for('delete_appointment', id=a.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete?')">🗑</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-plus"></i> New Appointment</div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_appointment') }}">
+                        <div class="mb-2">
+                            <label class="form-label small">Donor Name</label>
+                            <input type="text" name="donor_name" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small">Blood Type</label>
+                            <select name="blood_type" class="form-select form-select-sm" required>
+                                {% for bt in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}<option>{{ bt }}</option>{% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small">Date</label>
+                            <input type="date" name="appointment_date" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small">Time</label>
+                            <input type="time" name="appointment_time" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Purpose</label>
+                            <select name="purpose" class="form-select form-select-sm">
+                                <option>Donation</option>
+                                <option>Checkup</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-blood w-100">Add Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

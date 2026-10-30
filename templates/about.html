@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}About - LifeFlow{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" height="80" style="border-radius:50%; border:3px solid #C41E3A;">
+                    <h2 class="mt-3 mb-0">LifeFlow</h2>
+                    <p class="mb-0">Vijayawada Blood Bank Management System</p>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-danger">CSP Lab Project – Community Service</h4>
+                    <p>LifeFlow is a full-stack web application built as a <strong>Community Service Project (CSP)</strong> by a 3rd Year Data Science student. It aims to digitize and optimize blood bank operations in Vijayawada, Andhra Pradesh, helping save more lives through better inventory management, donor engagement, and predictive analytics.</p>
+                    
+                    <h5 class="mt-4">Key Features</h5>
+                    <ul>
+                        <li>Real blood bank branches data of Vijayawada</li>
+                        <li>Live inventory & capacity tracking by blood type</li>
+                        <li>Appointment & donor management (CRUD + Search)</li>
+                        <li>Hospital order tracking (pending / completed)</li>
+                        <li>Donor eligibility checker (Indian guidelines)</li>
+                        <li>Machine Learning prediction (Random Forest on RFM model)</li>
+                        <li>Secure registration & login with roles</li>
+                        <li>Beautiful blood-red & black themed UI (Bootstrap 5)</li>
+                    </ul>
+
+                    <h5 class="mt-4">Tech Stack</h5>
+                    <p>Python Flask • SQLite • Flask-Login • Pandas • Scikit-learn • Bootstrap 5 • Chart.js • HTML/CSS/JS</p>
+
+                    <h5 class="mt-4">Datasets</h5>
+                    <ol>
+                        <li><strong>Blood Bank Branches</strong> – 12 real blood banks in Vijayawada with capacity, address, contact.</li>
+                        <li><strong>Sample Branch Data</strong> – 50 inventory bags, 50 donors, 50 appointments, 30 hospital orders.</li>
+                    </ol>
+
+                    <p class="mt-4 text-center text-muted">Made with ❤️ for the people of Vijayawada | 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

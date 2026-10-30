@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Donors - LifeFlow{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-users text-danger"></i> Donor Details</h2>
+        <form class="d-flex search-box" method="GET">
+            <input type="text" name="search" class="form-control me-2" placeholder="Search name/type/phone..." value="{{ search }}">
+            <button class="btn btn-blood">Search</button>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="card">
+                <div class="card-header">Registered Donors ({{ donors|length }})</div>
+                <div class="card-body table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Name</th><th>Age</th><th>Gender</th><th>Blood</th><th>Phone</th><th>Last Donation</th><th>Total</th><th>Hb</th><th>Eligible</th><th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in donors %}
+                            <tr>
+                                <td>{{ d.donor_id }}</td>
+                                <td><strong>{{ d.name }}</strong></td>
+                                <td>{{ d.age }}</td>
+                                <td>{{ d.gender }}</td>
+                                <td><span class="badge bg-danger">{{ d.blood_type }}</span></td>
+                                <td>{{ d.phone }}</td>
+                                <td>{{ d.last_donation_date }}</td>
+                                <td>{{ d.total_donations }}</td>
+                                <td>{{ d.hemoglobin }}</td>
+                                <td>{% if d.eligible == 'Yes' %}<span class="badge bg-success">Yes</span>{% else %}<span class="badge bg-danger">No</span>{% endif %}</td>
+                                <td><a href="{{ url_for('delete_donor', id=d.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete?')">🗑</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-user-plus"></i> Add Donor</div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_donor') }}">
+                        <input type="text" name="name" class="form-control form-control-sm mb-2" placeholder="Full Name" required>
+                        <div class="row g-1 mb-2">
+                            <div class="col-6"><input type="number" name="age" class="form-control form-control-sm" placeholder="Age" min="18" max="65" required></div>
+                            <div class="col-6">
+                                <select name="gender" class="form-select form-select-sm"><option>Male</option><option>Female</option></select>
+                            </div>
+                        </div>
+                        <select name="blood_type" class="form-select form-select-sm mb-2" required>
+                            {% for bt in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}<option>{{ bt }}</option>{% endfor %}
+                        </select>
+                        <input type="text" name="phone" class="form-control form-control-sm mb-2" placeholder="Phone" required>
+                        <input type="email" name="email" class="form-control form-control-sm mb-2" placeholder="Email">
+                        <input type="text" name="address" class="form-control form-control-sm mb-2" placeholder="Address">
+                        <div class="row g-1 mb-2">
+                            <div class="col-6"><input type="number" name="weight_kg" class="form-control form-control-sm" placeholder="Weight kg" value="60"></div>
+                            <div class="col-6"><input type="number" step="0.1" name="hemoglobin" class="form-control form-control-sm" placeholder="Hb" value="13.5"></div>
+                        </div>
+                        <button type="submit" class="btn btn-blood w-100">Add Donor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

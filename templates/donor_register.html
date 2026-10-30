@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Donor Registration - LifeFlow{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="login-card" style="max-width:500px;">
+        <div class="text-center mb-3">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" class="login-logo">
+            <h3 style="color:#C41E3A;">Register as Blood Donor</h3>
+            <p class="text-muted small">Public form – Help save lives in Vijayawada</p>
+        </div>
+        <form method="POST">
+            <div class="mb-2"><input type="text" name="name" class="form-control" placeholder="Full Name" required></div>
+            <div class="row g-2 mb-2">
+                <div class="col-6"><input type="number" name="age" class="form-control" placeholder="Age" min="18" max="65" required></div>
+                <div class="col-6">
+                    <select name="gender" class="form-select"><option>Male</option><option>Female</option></select>
+                </div>
+            </div>
+            <div class="mb-2">
+                <select name="blood_type" class="form-select" required>
+                    <option value="">Blood Type</option>
+                    {% for bt in ['A+','A-','B+','B-','AB+','AB-','O+','O-'] %}<option>{{ bt }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="mb-2"><input type="text" name="phone" class="form-control" placeholder="Phone Number" required></div>
+            <div class="mb-2"><input type="email" name="email" class="form-control" placeholder="Email"></div>
+            <div class="mb-2"><input type="text" name="address" class="form-control" placeholder="Address in Vijayawada"></div>
+            <div class="row g-2 mb-3">
+                <div class="col-6"><input type="number" name="weight_kg" class="form-control" placeholder="Weight (kg)" value="60"></div>
+                <div class="col-6"><input type="number" step="0.1" name="hemoglobin" class="form-control" placeholder="Hb (g/dL)" value="13.5"></div>
+            </div>
+            <button type="submit" class="btn btn-blood w-100">Submit Registration</button>
+        </form>
+        <p class="text-center mt-3"><a href="{{ url_for('login') }}" style="color:#D4AF37;">Staff / Admin Login</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - LifeFlow{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-tachometer-alt text-danger"></i> Dashboard</h2>
+        <span class="badge bg-danger fs-6">Live Data • Vijayawada</span>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3 col-6">
+            <div class="card stat-card">
+                <h2>{{ total_branches }}</h2>
+                <p><i class="fas fa-hospital"></i> Blood Banks</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card stat-card">
+                <h2>{{ available_units }}</h2>
+                <p><i class="fas fa-tint"></i> Available Units</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card stat-card">
+                <h2>{{ pending_orders }}</h2>
+                <p><i class="fas fa-clipboard-list"></i> Pending Orders</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card stat-card">
+                <h2>{{ total_donors }}</h2>
+                <p><i class="fas fa-users"></i> Registered Donors</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Chart -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-chart-pie"></i> Available Blood by Type</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="bloodChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Quick Links -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-bolt"></i> Quick Actions</div>
+                <div class="card-body">
+                    <div class="d-grid gap-3">
+                        <a href="{{ url_for('capacity') }}" class="btn btn-blood btn-lg"><i class="fas fa-tint"></i> View Capacity & In-Stock</a>
+                        <a href="{{ url_for('appointments') }}" class="btn btn-outline-blood btn-lg"><i class="fas fa-calendar"></i> Manage Appointments</a>
+                        <a href="{{ url_for('orders') }}" class="btn btn-outline-blood btn-lg"><i class="fas fa-hospital"></i> Hospital Orders</a>
+                        <a href="{{ url_for('prediction') }}" class="btn btn-gold btn-lg"><i class="fas fa-brain"></i> Donor Prediction (ML)</a>
+                        <a href="{{ url_for('eligibility') }}" class="btn btn-outline-blood btn-lg"><i class="fas fa-heartbeat"></i> Check Eligibility</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-info-circle"></i> Welcome to LifeFlow</div>
+                <div class="card-body">
+                    <p>This system manages blood bank operations across <strong>{{ total_branches }}</strong> real blood banks in Vijayawada. 
+                    Use the navigation tabs above to check stock, manage donors & appointments, process hospital orders, run eligibility checks, and predict future donations using Machine Learning.</p>
+                    <p class="mb-0 text-muted">CSP Lab Project • Data Science • Real-world community impact</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const ctx = document.getElementById('bloodChart').getContext('2d');
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: {{ blood_labels | tojson }},
+        datasets: [{
+            data: {{ blood_values | tojson }},
+            backgroundColor: ['#C41E3A','#8B0000','#FF6B6B','#D4AF37','#FF4500','#DC143C','#B22222','#A52A2A'],
+            borderColor: '#1a1a1a',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { color: '#fff' } }
+        }
+    }
+});
+</script>
+{% endblock %}
